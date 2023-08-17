@@ -14,14 +14,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Clean Workspace') {
-            steps {
-                script {
-                    // Cleanup before starting the stage
-                    cleanWs()
-                }
-            }
-        }
+        
         stage('Clone Repository') {
             steps {
                 script {
@@ -45,6 +38,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
