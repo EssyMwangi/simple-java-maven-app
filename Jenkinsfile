@@ -25,14 +25,7 @@ pipeline {
                 }
             }
         }
-        stage('Clean Workspace') {
-            steps {
-                script {
-                    // Cleanup before starting the stage
-                    cleanWs()
-                }
-            }
-        }
+        
 
         stage('Test') {
             steps {
@@ -47,6 +40,14 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
+            }
+        }
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    // Cleanup before starting the stage
+                    cleanWs()
+                }
             }
         }
     }
