@@ -1,5 +1,6 @@
 pipeline {
     agent {
+        
         docker {
             image 'maven:3.9.3-eclipse-temurin-17-alpine'
             args '-v /root/.m2:/root/.m2'
@@ -13,6 +14,17 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
+        }
+        stage('Clone Repository') {
+            steps {
+                script {
+                    sh 'rm -rf .git'
+                    final scmVars = checkout(scm)
+                    env.BRANCH_NAME = scmVars.GIT_BRANCH
+                    env.SHORT_COMMIT = "${scmVars.GIT_COMMIT[0..7]}"
+                    env.GIT_REPO_NAME = scmVars.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+               }
+           }
         }
         stage('Test') {
             steps {
