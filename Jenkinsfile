@@ -26,6 +26,20 @@ pipeline {
                }
            }
         }
+        stage('Run Java Unit Tests') {
+            steps {
+                // sh 'mvn -B -DskipTests clean package'
+                script {
+                    withMaven(maven: 'M3') {
+                        withEnv(["JAVA_HOME=/usr/java/jdk-17.0.5"])  {
+                            sh "echo $JAVA_HOME"
+                            // sh "mvn -Dmaven.test.failure.ignore=true -Dserver.port=8080 clean package"
+                            sh "mvn -DskipTests clean package"
+                        }
+                    }
+                }
+            }
+        }
         stage('Test') {
             steps {
                 sh 'mvn test'
