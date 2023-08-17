@@ -25,18 +25,15 @@ pipeline {
                 }
             }
         }
-        stage('Run Java Unit Tests') {
+        stage('Clean Workspace') {
             steps {
                 script {
-                    withMaven(maven: 'M3') {
-                        withEnv(["JAVA_HOME=/usr/java/jdk-17.0.8"]) {
-                            sh "echo $JAVA_HOME"
-                            sh "mvn -DskipTests clean package"
-                        }
-                    }
+                    // Cleanup before starting the stage
+                    cleanWs()
                 }
             }
         }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
