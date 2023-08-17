@@ -33,11 +33,12 @@ pipeline {
                         withEnv(["JAVA_HOME=/usr/java/jdk-17.0.8"]) {
                             sh "echo $JAVA_HOME"
                             sh "mvn -DskipTests clean package"
-                        }
+                        }       
                     }
                 }
             }
         }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
